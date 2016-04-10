@@ -225,3 +225,15 @@ func TestLoadInValid(t *testing.T) {
 		t.Errorf("expected to fail loading, got: %+v", environment.Config)
 	}
 }
+
+func TestInitWithInvalidConfig(t *testing.T) {
+	Register("sample_invalid")
+
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("got: %+v, expected: panic!", environment.Config)
+		}
+	}()
+
+	Init("sample_invalid")
+}
