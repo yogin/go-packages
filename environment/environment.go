@@ -1,4 +1,4 @@
-package config
+package environment
 
 import (
 	"encoding/json"
@@ -23,6 +23,13 @@ var environments = map[string]string{
 
 var envDefault = "development"
 var environment = Environment{}
+
+// Register defines a new environment
+func Register(name string) {
+	if _, ok := environments[name]; !ok {
+		environments[name] = environmentFilePath(name)
+	}
+}
 
 // Init sets and loads the environment from a configuration file
 func Init(name ...string) {
@@ -112,5 +119,5 @@ func environmentFileExists(path string) bool {
 }
 
 func environmentFilePath(name string) string {
-	return fmt.Sprintf("config/environments/%s.json", name)
+	return fmt.Sprintf("environments/%s.json", name)
 }

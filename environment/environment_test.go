@@ -1,4 +1,4 @@
-package config
+package environment
 
 import (
 	"os"
@@ -44,14 +44,14 @@ func ExampleF_Init() {
 	Init()
 	// Output:
 	// Warning: GO_ENV not set, setting environment to development
-	// Warning: no environment configuration file found at config/environments/development.json
+	// Warning: no environment configuration file found at environments/development.json
 }
 
 func ExampleF_InitValid() {
 	Init("test")
 	// Output:
 	// Warning: Overriding GO_ENV, setting senvironment to test
-	// Warning: no environment configuration file found at config/environments/test.json
+	// Warning: no environment configuration file found at environments/test.json
 }
 
 func TestGetDefault(t *testing.T) {
@@ -87,6 +87,10 @@ func TestNameWithValue(t *testing.T) {
 	if name != "test" {
 		t.Errorf("got: %s, expected: %s", name, "test")
 	}
+}
+
+func TestRegister(t *testing.T) {
+	t.Skip("TODO")
 }
 
 func TestConfigGet(t *testing.T) {
