@@ -34,6 +34,7 @@ func Register(name string) {
 // Init sets and loads the environment from a configuration file
 func Init(name ...string) {
 	var env string
+	environment.Config = Config{}
 
 	if len(name) > 0 {
 		env = name[0]
@@ -76,18 +77,30 @@ func Name() string {
 }
 
 // Get returns the value for a key
-func (c Config) Get(key string, defaultValue ...interface{}) interface{} {
+func (env Environment) Get(key string, defaultValue ...interface{}) interface{} {
+	if env.Name == "" {
+		Init()
+	}
+
 	var value interface{}
 
 	if len(defaultValue) > 0 {
 		value = defaultValue[0]
 	}
 
-	if _, ok := c[key]; !ok {
+	if _, ok := env.Config[key]; !ok {
 		return value
 	}
 
-	return c[key]
+	return env.Config[key]
+}
+
+func (env Environment) Set(key string, value interface{}) {
+	if env.Name == "" {
+		Init()
+	}
+
+	env.Config[key] = value
 }
 
 func load(path string) error {

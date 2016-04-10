@@ -90,9 +90,40 @@ func TestNameWithValue(t *testing.T) {
 }
 
 func TestRegister(t *testing.T) {
-	t.Skip("TODO")
+	Register("new_environment")
+
+	if _, ok := environments["new_environment"]; !ok {
+		t.Errorf("environment 'new_environment' not found")
+	}
 }
 
 func TestConfigGet(t *testing.T) {
-	t.Skip("TODO")
+	Init()
+	env := Get()
+	env.Config["world"] = "hello"
+	value := env.Get("world")
+
+	if value != "hello" {
+		t.Errorf("got: %v, expected: hello", value)
+	}
+}
+
+func TestConfigGetDefault(t *testing.T) {
+	Init()
+	env := Get()
+	value := env.Get("world", 42)
+
+	if value != 42 {
+		t.Errorf("got: %v, expected: 42", value)
+	}
+}
+
+func TestConfigSet(t *testing.T) {
+	Init()
+	env := Get()
+	env.Set("hello", "world")
+
+	if _, ok := env.Config["hello"]; !ok {
+		t.Errorf("expecting to set config 'hello'='world'")
+	}
 }
