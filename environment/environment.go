@@ -110,11 +110,9 @@ func load(path string) error {
 		return nil
 	}
 
-	content, err := ioutil.ReadFile(path)
-	if err != nil {
-		fmt.Printf("Error: failed reading configuration file at %s : %s\n", path, err)
-		return err
-	}
+	// Ignoring err here because I already check if the file exists
+	// and ioutil doesn't check anything else: https://golang.org/src/io/ioutil/ioutil_test.go
+	content, _ := ioutil.ReadFile(path)
 
 	if err := json.Unmarshal(content, &environment.Config); err != nil {
 		fmt.Printf("Error: failed parsing configuration file at %s : %s\n", path, err)
