@@ -124,11 +124,13 @@ func load(path string) error {
 }
 
 func environmentFileExists(path string) bool {
+	exists := true
+
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		return false
+		exists = false
 	}
 
-	return true
+	return exists
 }
 
 func environmentFilePath(name string) string {
