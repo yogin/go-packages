@@ -5,7 +5,12 @@ import (
 	"testing"
 )
 
+func resetEnvironment() {
+	environment = Environment{}
+}
+
 func TestInit_WithoutEnv(t *testing.T) {
+	resetEnvironment()
 	Init()
 
 	if environment.Name != envDefault {
@@ -14,6 +19,8 @@ func TestInit_WithoutEnv(t *testing.T) {
 }
 
 func TestInit_WithValidEnv(t *testing.T) {
+	resetEnvironment()
+
 	old := os.Getenv("GO_ENV")
 	defer func() { os.Setenv("GO_ENV", old) }()
 
@@ -26,6 +33,8 @@ func TestInit_WithValidEnv(t *testing.T) {
 }
 
 func TestInit_WithInvalidEnv(t *testing.T) {
+	resetEnvironment()
+
 	old := os.Getenv("GO_ENV")
 	defer func() { os.Setenv("GO_ENV", old) }()
 
@@ -41,6 +50,7 @@ func TestInit_WithInvalidEnv(t *testing.T) {
 }
 
 func ExampleF_Init() {
+	resetEnvironment()
 	Init()
 	// Output:
 	// Warning: GO_ENV not set, setting environment to development
@@ -48,6 +58,7 @@ func ExampleF_Init() {
 }
 
 func ExampleF_InitValid() {
+	resetEnvironment()
 	Init("test")
 	// Output:
 	// Warning: Overriding GO_ENV, setting senvironment to test
@@ -55,6 +66,7 @@ func ExampleF_InitValid() {
 }
 
 func TestGetDefault(t *testing.T) {
+	resetEnvironment()
 	Init()
 	env := Get()
 
@@ -62,7 +74,9 @@ func TestGetDefault(t *testing.T) {
 		t.Errorf("got: %s, expected: %s", env.Name, envDefault)
 	}
 }
+
 func TestGetWithValue(t *testing.T) {
+	resetEnvironment()
 	Init("test")
 	env := Get()
 
@@ -71,7 +85,17 @@ func TestGetWithValue(t *testing.T) {
 	}
 }
 
+func TestGetWithoutInit(t *testing.T) {
+	resetEnvironment()
+	env := Get()
+
+	if env.Name != "development" {
+		t.Errorf("got: %s, expected %s", env.Name, "development")
+	}
+}
+
 func TestNameDefault(t *testing.T) {
+	resetEnvironment()
 	Init()
 	name := Name()
 
@@ -81,6 +105,7 @@ func TestNameDefault(t *testing.T) {
 }
 
 func TestNameWithValue(t *testing.T) {
+	resetEnvironment()
 	Init("test")
 	name := Name()
 
@@ -90,6 +115,7 @@ func TestNameWithValue(t *testing.T) {
 }
 
 func TestRegister(t *testing.T) {
+	resetEnvironment()
 	Register("new_environment")
 
 	if _, ok := environments["new_environment"]; !ok {
@@ -98,6 +124,7 @@ func TestRegister(t *testing.T) {
 }
 
 func TestConfigGet(t *testing.T) {
+	resetEnvironment()
 	Init()
 	env := Get()
 	env.Config["world"] = "hello"
@@ -109,6 +136,7 @@ func TestConfigGet(t *testing.T) {
 }
 
 func TestConfigGetDefault(t *testing.T) {
+	resetEnvironment()
 	Init()
 	env := Get()
 	value := env.Get("world", 42)
@@ -119,6 +147,7 @@ func TestConfigGetDefault(t *testing.T) {
 }
 
 func TestConfigSet(t *testing.T) {
+	resetEnvironment()
 	Init()
 	env := Get()
 	env.Set("hello", "world")
