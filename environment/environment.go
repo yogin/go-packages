@@ -58,7 +58,7 @@ func Init(name ...string) {
 	}
 }
 
-// GetEnvironment returns the environment
+// Get returns the environment
 func Get() Environment {
 	if environment.Name == "" {
 		Init()
@@ -67,7 +67,7 @@ func Get() Environment {
 	return environment
 }
 
-// GetName returns the environment name
+// Name returns the environment name
 func Name() string {
 	if environment.Name == "" {
 		Init()
@@ -95,6 +95,7 @@ func (env Environment) Get(key string, defaultValue ...interface{}) interface{} 
 	return env.Config[key]
 }
 
+// Set adds/updates a key/value to the environment Config
 func (env Environment) Set(key string, value interface{}) {
 	if env.Name == "" {
 		panic(fmt.Sprintf("Error: Invalid environment: %+v\n", env))
