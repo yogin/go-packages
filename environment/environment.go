@@ -79,7 +79,7 @@ func Name() string {
 // Get returns the value for a key
 func (env Environment) Get(key string, defaultValue ...interface{}) interface{} {
 	if env.Name == "" {
-		Init()
+		panic(fmt.Sprintf("Error: Invalid environment: %+v\n", env))
 	}
 
 	var value interface{}
@@ -97,7 +97,7 @@ func (env Environment) Get(key string, defaultValue ...interface{}) interface{} 
 
 func (env Environment) Set(key string, value interface{}) {
 	if env.Name == "" {
-		Init()
+		panic(fmt.Sprintf("Error: Invalid environment: %+v\n", env))
 	}
 
 	env.Config[key] = value

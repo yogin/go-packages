@@ -114,6 +114,15 @@ func TestNameWithValue(t *testing.T) {
 	}
 }
 
+func TestNameWithoutInit(t *testing.T) {
+	resetEnvironment()
+	name := Name()
+
+	if name != envDefault {
+		t.Errorf("got: %s, expected: %s", name, envDefault)
+	}
+}
+
 func TestRegister(t *testing.T) {
 	resetEnvironment()
 	Register("new_environment")
@@ -146,6 +155,18 @@ func TestConfigGetDefault(t *testing.T) {
 	}
 }
 
+func TestConfigGetWithInvalidEnv(t *testing.T) {
+	env := Environment{}
+
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("got: %+v, expected: panic!", env)
+		}
+	}()
+
+	env.Get("hello")
+}
+
 func TestConfigSet(t *testing.T) {
 	resetEnvironment()
 	Init()
@@ -155,4 +176,16 @@ func TestConfigSet(t *testing.T) {
 	if _, ok := env.Config["hello"]; !ok {
 		t.Errorf("expecting to set config 'hello'='world'")
 	}
+}
+
+func TestConfigSetWithInvalidEnv(t *testing.T) {
+	env := Environment{}
+
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("got: %+v, expected: panic!", env)
+		}
+	}()
+
+	env.Set("hello", "world")
 }
