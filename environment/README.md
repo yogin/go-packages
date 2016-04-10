@@ -1,5 +1,10 @@
 ## Package: environment
 
+[![](https://godoc.org/github.com/yogin/go-packages/environment?status.svg)](http://godoc.org/github.com/yogin/go-packages/environment)
+
+
+https://godoc.org/github.com/yogin/go-packages/environment
+
 This package allows the use of JSON configuration files for different environments.
 
 Usage:
