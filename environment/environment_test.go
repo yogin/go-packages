@@ -189,3 +189,39 @@ func TestConfigSetWithInvalidEnv(t *testing.T) {
 
 	env.Set("hello", "world")
 }
+
+func TestEnvironmentFileExists(t *testing.T) {
+	path := environmentFilePath("sample_valid")
+	v := environmentFileExists(path)
+
+	if v != true {
+		t.Errorf("got: %v, expected: %v", v, true)
+	}
+}
+
+func TestEnvironmentFileNotExists(t *testing.T) {
+	path := environmentFilePath("not_exist")
+	v := environmentFileExists(path)
+
+	if v != false {
+		t.Errorf("got: %v, expected: %v", v, true)
+	}
+}
+
+func TestLoadValid(t *testing.T) {
+	resetEnvironment()
+	path := environmentFilePath("sample_valid")
+
+	if err := load(path); err != nil {
+		t.Errorf("expected to load, got: %s", err)
+	}
+}
+
+func TestLoadInValid(t *testing.T) {
+	resetEnvironment()
+	path := environmentFilePath("sample_invalid")
+
+	if err := load(path); err == nil {
+		t.Errorf("expected to fail loading, got: %+v", environment.Config)
+	}
+}
