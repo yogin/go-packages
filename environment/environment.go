@@ -34,8 +34,9 @@ func Register(name string) {
 	}
 }
 
-// Init sets and loads the environment from a configuration file
-func Init(name ...string) {
+// Init sets and loads the environment from a configuration file.
+// It returns the Environment configuration
+func Init(name ...string) Environment {
 	var env string
 	environment.Config = Config{}
 
@@ -59,6 +60,8 @@ func Init(name ...string) {
 	if err := load(environments[env]); err != nil {
 		panic(fmt.Sprintf("Error: Failed reading configuration: %s\n", err))
 	}
+
+	return environment
 }
 
 // Get returns the environment

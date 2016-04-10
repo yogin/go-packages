@@ -49,6 +49,15 @@ func TestInit_WithInvalidEnv(t *testing.T) {
 	Init()
 }
 
+func TestInitReturnValue(t *testing.T) {
+	resetEnvironment()
+
+	env := Init("test")
+	if env.Name != "test" {
+		t.Errorf("got %s, expected: %s", env.Name, "test")
+	}
+}
+
 func ExampleF_Init() {
 	resetEnvironment()
 	Init()
