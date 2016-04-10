@@ -1,3 +1,6 @@
+// Package environment allows the use of JSON configuration files for different environments
+// It will look for an environment variable named GO_ENV to select an environment,
+// it's also possible to pass the environment name via the Init() function
 package environment
 
 import (
